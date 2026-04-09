@@ -43,7 +43,7 @@ const WHEEL_COLORS = [
   BRAND.gray,
 ];
 
-const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbzMxQbV7CqqDrHp4CWqgPvNOtGP0_bdXf94bTN0pBZ3xeLvkupCKtXbo5zGtR5Ysehs/exec";
+const WEBHOOK_URL = "/api/notify";
 const DAILY_LIMIT_STORAGE_KEY = "methanex_dropped_objects_daily_limit";
 
 function normalizeParticipantName(name) {
