@@ -104,7 +104,10 @@ function buildPayload({ fullName, company, question, answer }) {
 }
 
 async function notifyParticipation(payload) {
-  if (!WEBHOOK_URL) return { ok: false, skipped: true };
+  if (!WEBHOOK_URL) {
+    console.log("Webhook vacío");
+    return { ok: false, skipped: true };
+  }
 
   try {
     const response = await fetch(WEBHOOK_URL, {
@@ -112,8 +115,14 @@ async function notifyParticipation(payload) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
+
+    const text = await response.text();
+    console.log("Webhook status:", response.status);
+    console.log("Webhook response:", text);
+
     return { ok: response.ok, skipped: false };
-  } catch {
+  } catch (error) {
+    console.error("Webhook error:", error);
     return { ok: false, skipped: false };
   }
 }
