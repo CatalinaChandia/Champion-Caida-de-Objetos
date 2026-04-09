@@ -117,12 +117,12 @@ async function notifyParticipation(payload) {
     });
 
     const text = await response.text();
-    console.log("Webhook status:", response.status);
-    console.log("Webhook response:", text);
+    console.log("API status:", response.status);
+    console.log("API response:", text);
 
     return { ok: response.ok, skipped: false };
   } catch (error) {
-    console.error("Webhook error:", error);
+    console.error("API error:", error);
     return { ok: false, skipped: false };
   }
 }
