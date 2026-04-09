@@ -43,7 +43,7 @@ const WHEEL_COLORS = [
   BRAND.gray,
 ];
 
-const WEBHOOK_URL = "https://default424cd790528d436587669be8efb914.78.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/1f9df0f579a2473fb544d554328fd2a1/triggers/manual/paths/invoke?api-version=1";
+const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbzMxQbV7CqqDrHp4CWqgPvNOtGP0_bdXf94bTN0pBZ3xeLvkupCKtXbo5zGtR5Ysehs/exec";
 const DAILY_LIMIT_STORAGE_KEY = "methanex_dropped_objects_daily_limit";
 
 function normalizeParticipantName(name) {
