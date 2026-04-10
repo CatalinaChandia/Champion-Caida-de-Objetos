@@ -1,37 +1,79 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from 'react';
 
 const BRAND = {
-  primary: "#00B0D3",
-  navy: "#06357A",
-  lightBlue: "#70CEEC",
-  purple: "#732B8D",
-  yellow: "#FEC33E",
-  gray: "#B1B3B6",
-  text: "#24364B",
-  softBg: "#F6FAFC",
-  softBorder: "#D9E5EC",
+  primary: '#00B0D3',
+  navy: '#06357A',
+  lightBlue: '#70CEEC',
+  purple: '#732B8D',
+  yellow: '#FEC33E',
+  gray: '#B1B3B6',
+  text: '#24364B',
+  softBg: '#F6FAFC',
+  softBorder: '#D9E5EC',
 };
 
 const METHANEX_LOGO =
-  "https://companieslogo.com/img/orig/MEOH_BIG-cb80609b.png?t=1689054013";
+  'https://companieslogo.com/img/orig/MEOH_BIG-cb80609b.png?t=1689054013';
 
 const QUESTIONS = [
-  { id: 1, question: "¿Cuál es el objetivo principal de la guía de prevención de objetos caídos?" },
-  { id: 2, question: "¿Qué es una zona de objetos caídos?" },
-  { id: 3, question: "¿Qué debe contemplar la planificación de un trabajo con riesgo de caída de objetos?" },
-  { id: 4, question: "¿Qué aspectos debe abordar el JHA en relación con los objetos caídos?" },
-  { id: 5, question: "¿Qué es el sistema de prevención primaria de caídas?" },
-  { id: 6, question: "¿Qué indica la guía de prevención de objetos caídos sobre las herramientas y componentes pequeños cuando se trabaja en altura?" },
-  { id: 7, question: "¿Qué requisito existe para herramientas o equipos de más de 5 libras (2,2 kg)?" },
-  { id: 8, question: "¿Qué requisito existe para herramientas o equipos de menos de 5 libras (2,2 kg)?" },
-  { id: 9, question: "¿Cómo deben asegurarse los radios y monitores de gas?" },
-  { id: 10, question: "¿Qué es el sistema secundario de prevención de caídas?" },
-  { id: 11, question: "¿Cómo deben delimitarse las zonas de objetos caídos?" },
-  { id: 12, question: "¿Qué importancia tiene la limpieza en el área de trabajo para la prevención de objetos caídos?" },
-  { id: 13, question: "¿Cuál es tu obligación como trabajador al observar un peligro?" },
-  { id: 14, question: "¿Para qué se utiliza la calculadora DROPS?" },
-  { id: 15, question: "¿Qué responsabilidades tiene el líder del trabajo para la prevención de caída de objetos?" },
-  { id: 16, question: "¿Qué establece la guía de prevención de caída de objetos sobre el uso de barbiquejos y cordones retractiles de seguridad?" },
+  {
+    id: 1,
+    question:
+      '¿Cuál es el objetivo principal de la guía de prevención de objetos caídos?',
+  },
+  { id: 2, question: '¿Qué es una zona de objetos caídos?' },
+  {
+    id: 3,
+    question:
+      '¿Qué debe contemplar la planificación de un trabajo con riesgo de caída de objetos?',
+  },
+  {
+    id: 4,
+    question:
+      '¿Qué aspectos debe abordar el JHA en relación con los objetos caídos?',
+  },
+  { id: 5, question: '¿Qué es el sistema de prevención primaria de caídas?' },
+  {
+    id: 6,
+    question:
+      '¿Qué indica la guía de prevención de objetos caídos sobre las herramientas y componentes pequeños cuando se trabaja en altura?',
+  },
+  {
+    id: 7,
+    question:
+      '¿Qué requisito existe para herramientas o equipos de más de 5 libras (2,2 kg)?',
+  },
+  {
+    id: 8,
+    question:
+      '¿Qué requisito existe para herramientas o equipos de menos de 5 libras (2,2 kg)?',
+  },
+  { id: 9, question: '¿Cómo deben asegurarse los radios y monitores de gas?' },
+  {
+    id: 10,
+    question: '¿Qué es el sistema secundario de prevención de caídas?',
+  },
+  { id: 11, question: '¿Cómo deben delimitarse las zonas de objetos caídos?' },
+  {
+    id: 12,
+    question:
+      '¿Qué importancia tiene la limpieza en el área de trabajo para la prevención de objetos caídos?',
+  },
+  {
+    id: 13,
+    question: '¿Cuál es tu obligación como trabajador al observar un peligro?',
+  },
+  { id: 14, question: '¿Para qué se utiliza la calculadora DROPS?' },
+  {
+    id: 15,
+    question:
+      '¿Qué responsabilidades tiene el líder del trabajo para la prevención de caída de objetos?',
+  },
+  {
+    id: 16,
+    question:
+      '¿Qué establece la guía de prevención de caída de objetos sobre el uso de barbiquejos y cordones retractiles de seguridad?',
+  },
 ];
 
 const WHEEL_COLORS = [
@@ -43,28 +85,28 @@ const WHEEL_COLORS = [
   BRAND.gray,
 ];
 
-const WEBHOOK_URL = "/api/notify";
-const DAILY_LIMIT_STORAGE_KEY = "methanex_dropped_objects_daily_limit";
+const WEBHOOK_URL = '/api/notify';
+const DAILY_LIMIT_STORAGE_KEY = 'methanex_dropped_objects_daily_limit';
 
 function normalizeParticipantName(name) {
   return name
     .trim()
     .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/\s+/g, " ");
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s+/g, ' ');
 }
 
 function getTodayKey() {
   const now = new Date();
   const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  const day = String(now.getDate()).padStart(2, "0");
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 }
 
 function readDailyLimitStore() {
-  if (typeof window === "undefined") return {};
+  if (typeof window === 'undefined') return {};
   try {
     const raw = window.localStorage.getItem(DAILY_LIMIT_STORAGE_KEY);
     return raw ? JSON.parse(raw) : {};
@@ -82,7 +124,7 @@ function hasPlayedToday(fullName) {
 
 function markPlayedToday(fullName) {
   const normalizedName = normalizeParticipantName(fullName);
-  if (!normalizedName || typeof window === "undefined") return;
+  if (!normalizedName || typeof window === 'undefined') return;
   const store = readDailyLimitStore();
   store[normalizedName] = getTodayKey();
   window.localStorage.setItem(DAILY_LIMIT_STORAGE_KEY, JSON.stringify(store));
@@ -94,7 +136,7 @@ function pickRandomQuestion(questions) {
 
 function buildPayload({ fullName, company, question, answer }) {
   return {
-    type: "single_draw_answer",
+    type: 'single_draw_answer',
     participant: { fullName, company },
     questionId: question.id,
     question: question.question,
@@ -105,47 +147,47 @@ function buildPayload({ fullName, company, question, answer }) {
 
 async function notifyParticipation(payload) {
   if (!WEBHOOK_URL) {
-    console.log("Webhook vacío");
     return { ok: false, skipped: true };
   }
 
   try {
     const response = await fetch(WEBHOOK_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     });
 
-    const text = await response.text();
-    console.log("API status:", response.status);
-    console.log("API response:", text);
-
     return { ok: response.ok, skipped: false };
   } catch (error) {
-    console.error("API error:", error);
+    console.error('API error:', error);
     return { ok: false, skipped: false };
   }
 }
 
-function SectionCard({ title, children, compact = false }) {
+function SectionCard({ title, children, compact = false, mobile = false }) {
   return (
     <div
       style={{
-        background: "#fff",
+        background: '#fff',
         border: `1px solid ${BRAND.softBorder}`,
-        borderRadius: 26,
-        boxShadow: "0 10px 30px rgba(9, 30, 66, 0.08)",
-        padding: compact ? 22 : 28,
+        borderRadius: mobile ? 22 : 26,
+        boxShadow: '0 10px 30px rgba(9, 30, 66, 0.08)',
+        padding: mobile ? 20 : compact ? 22 : 28,
+        width: '100%',
+        boxSizing: 'border-box',
+        overflow: 'hidden',
       }}
     >
       <h3
         style={{
           margin: 0,
-          marginBottom: 16,
+          marginBottom: mobile ? 14 : 16,
           color: BRAND.navy,
-          fontSize: compact ? 24 : 32,
+          fontSize: mobile ? 24 : compact ? 24 : 32,
+          lineHeight: 1.08,
           fontWeight: 800,
-          letterSpacing: "-0.02em",
+          letterSpacing: '-0.02em',
+          wordBreak: 'break-word',
         }}
       >
         {title}
@@ -155,23 +197,31 @@ function SectionCard({ title, children, compact = false }) {
   );
 }
 
-function PrimaryButton({ children, onClick, type = "button", disabled = false, style = {} }) {
+function PrimaryButton({
+  children,
+  onClick,
+  type = 'button',
+  disabled = false,
+  style = {},
+  mobile = false,
+}) {
   return (
     <button
       type={type}
       onClick={onClick}
       disabled={disabled}
       style={{
-        background: disabled ? "#8FDDF0" : BRAND.primary,
-        color: "#fff",
-        border: "none",
+        background: disabled ? '#8FDDF0' : BRAND.primary,
+        color: '#fff',
+        border: 'none',
         borderRadius: 16,
-        padding: "14px 24px",
+        padding: mobile ? '14px 18px' : '14px 24px',
         fontSize: 15,
         fontWeight: 700,
-        cursor: disabled ? "not-allowed" : "pointer",
-        boxShadow: disabled ? "none" : "0 8px 20px rgba(0, 176, 211, 0.22)",
-        transition: "all 0.2s ease",
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        boxShadow: disabled ? 'none' : '0 8px 20px rgba(0, 176, 211, 0.22)',
+        transition: 'all 0.2s ease',
+        width: mobile ? '100%' : 'auto',
         ...style,
       }}
     >
@@ -180,20 +230,21 @@ function PrimaryButton({ children, onClick, type = "button", disabled = false, s
   );
 }
 
-function OutlineButton({ children, onClick }) {
+function OutlineButton({ children, onClick, mobile = false }) {
   return (
     <button
       type="button"
       onClick={onClick}
       style={{
-        background: "#fff",
+        background: '#fff',
         color: BRAND.navy,
         border: `1px solid ${BRAND.navy}`,
         borderRadius: 16,
-        padding: "14px 24px",
+        padding: mobile ? '14px 18px' : '14px 24px',
         fontSize: 15,
         fontWeight: 700,
-        cursor: "pointer",
+        cursor: 'pointer',
+        width: mobile ? '100%' : 'auto',
       }}
     >
       {children}
@@ -201,19 +252,22 @@ function OutlineButton({ children, onClick }) {
   );
 }
 
-function Badge({ children, bg = "#EEF7FB", color = BRAND.navy }) {
+function Badge({ children, bg = '#EEF7FB', color = BRAND.navy }) {
   return (
     <span
       style={{
-        display: "inline-flex",
-        alignItems: "center",
+        display: 'inline-flex',
+        alignItems: 'center',
         gap: 6,
         background: bg,
         color,
         borderRadius: 999,
-        padding: "8px 14px",
+        padding: '8px 14px',
         fontSize: 13,
         fontWeight: 700,
+        maxWidth: '100%',
+        boxSizing: 'border-box',
+        flexWrap: 'wrap',
       }}
     >
       {children}
@@ -221,21 +275,28 @@ function Badge({ children, bg = "#EEF7FB", color = BRAND.navy }) {
   );
 }
 
-function LabeledInput({ label, value, onChange, placeholder, textarea = false }) {
+function LabeledInput({
+  label,
+  value,
+  onChange,
+  placeholder,
+  textarea = false,
+  mobile = false,
+}) {
   const sharedStyle = {
-    width: "100%",
-    boxSizing: "border-box",
+    width: '100%',
+    boxSizing: 'border-box',
     border: `1px solid ${BRAND.softBorder}`,
     borderRadius: 16,
     background: BRAND.softBg,
     color: BRAND.text,
     fontSize: 16,
-    padding: "14px 16px",
-    outline: "none",
+    padding: '14px 16px',
+    outline: 'none',
   };
 
   return (
-    <div style={{ display: "grid", gap: 8 }}>
+    <div style={{ display: 'grid', gap: 8, width: '100%' }}>
       <label
         style={{
           fontSize: 15,
@@ -252,9 +313,9 @@ function LabeledInput({ label, value, onChange, placeholder, textarea = false })
           placeholder={placeholder}
           style={{
             ...sharedStyle,
-            minHeight: 170,
-            resize: "vertical",
-            fontFamily: "inherit",
+            minHeight: mobile ? 150 : 170,
+            resize: 'vertical',
+            fontFamily: 'inherit',
           }}
         />
       ) : (
@@ -270,16 +331,28 @@ function LabeledInput({ label, value, onChange, placeholder, textarea = false })
 }
 
 export default function App() {
-  const [step, setStep] = useState("register");
-  const [fullName, setFullName] = useState("");
-  const [company, setCompany] = useState("");
-  const [answer, setAnswer] = useState("");
+  const [step, setStep] = useState('register');
+  const [fullName, setFullName] = useState('');
+  const [company, setCompany] = useState('');
+  const [answer, setAnswer] = useState('');
   const [selectedQuestionId, setSelectedQuestionId] = useState(null);
   const [rotation, setRotation] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
   const [isNotifying, setIsNotifying] = useState(false);
   const [notifyStatus, setNotifyStatus] = useState(null);
-  const [dailyLimitMessage, setDailyLimitMessage] = useState("");
+  const [dailyLimitMessage, setDailyLimitMessage] = useState('');
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== 'undefined' ? window.innerWidth : 1280
+  );
+
+  useEffect(() => {
+    const onResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
+  const isMobile = windowWidth < 900;
+  const isSmallMobile = windowWidth < 520;
 
   const selectedQuestion = useMemo(
     () => QUESTIONS.find((q) => q.id === selectedQuestionId) || null,
@@ -294,12 +367,14 @@ export default function App() {
     if (!trimmedName || !trimmedCompany) return;
 
     if (hasPlayedToday(trimmedName)) {
-      setDailyLimitMessage("¡UPS! Alcanzaste tu límite de intentos por el día, intenta mañana.");
+      setDailyLimitMessage(
+        '¡UPS! Alcanzaste tu límite de intentos por el día, intenta mañana.'
+      );
       return;
     }
 
-    setDailyLimitMessage("");
-    setStep("wheel");
+    setDailyLimitMessage('');
+    setStep('wheel');
   };
 
   const spinWheel = () => {
@@ -310,7 +385,7 @@ export default function App() {
 
     window.setTimeout(() => {
       setSelectedQuestionId(picked.id);
-      setStep("question");
+      setStep('question');
       setIsSpinning(false);
     }, 1800);
   };
@@ -327,7 +402,7 @@ export default function App() {
       answer,
     });
 
-    setStep("result");
+    setStep('result');
     setIsNotifying(true);
     const notify = await notifyParticipation(payload);
     setIsNotifying(false);
@@ -335,53 +410,59 @@ export default function App() {
   };
 
   const restartGame = () => {
-    setStep("register");
-    setFullName("");
-    setCompany("");
-    setAnswer("");
+    setStep('register');
+    setFullName('');
+    setCompany('');
+    setAnswer('');
     setSelectedQuestionId(null);
     setRotation(0);
     setIsSpinning(false);
     setIsNotifying(false);
     setNotifyStatus(null);
-    setDailyLimitMessage("");
+    setDailyLimitMessage('');
   };
+
+  const wheelSize = isSmallMobile ? 250 : isMobile ? 300 : 360;
 
   return (
     <div
       style={{
-        minHeight: "100vh",
-        padding: "24px 16px 40px",
-        background: `linear-gradient(180deg, #F7FCFE 0%, #FFFFFF 55%, #F4F7FA 100%)`,
+        minHeight: '100vh',
+        padding: isMobile ? '18px 14px 28px' : '24px 16px 40px',
+        background:
+          'linear-gradient(180deg, #F7FCFE 0%, #FFFFFF 55%, #F4F7FA 100%)',
         fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
+        boxSizing: 'border-box',
       }}
     >
-      <div style={{ maxWidth: 1220, margin: "0 auto" }}>
+      <div style={{ maxWidth: 1220, margin: '0 auto', width: '100%' }}>
         <div
           style={{
-            textAlign: "center",
-            marginBottom: 28,
+            textAlign: 'center',
+            marginBottom: isMobile ? 20 : 28,
           }}
         >
           <div
             style={{
-              display: "inline-flex",
-              justifyContent: "center",
-              background: "#fff",
+              display: 'inline-flex',
+              justifyContent: 'center',
+              background: '#fff',
               borderRadius: 28,
-              padding: "14px 26px",
+              padding: isMobile ? '10px 16px' : '14px 26px',
               border: `1px solid ${BRAND.softBorder}`,
-              boxShadow: "0 10px 30px rgba(9, 30, 66, 0.08)",
-              marginBottom: 20,
+              boxShadow: '0 10px 30px rgba(9, 30, 66, 0.08)',
+              marginBottom: isMobile ? 14 : 20,
+              maxWidth: '100%',
             }}
           >
             <img
               src={METHANEX_LOGO}
               alt="Methanex"
               style={{
-                height: 78,
-                width: "auto",
-                objectFit: "contain",
+                height: isMobile ? 54 : 78,
+                width: 'auto',
+                objectFit: 'contain',
+                maxWidth: isMobile ? 250 : 360,
               }}
             />
           </div>
@@ -390,12 +471,12 @@ export default function App() {
             style={{
               margin: 0,
               color: BRAND.navy,
-              fontSize: "clamp(34px, 5vw, 58px)",
+              fontSize: isSmallMobile ? 28 : isMobile ? 42 : 58,
               lineHeight: 1.02,
               fontWeight: 900,
-              letterSpacing: "-0.04em",
+              letterSpacing: '-0.04em',
               maxWidth: 980,
-              marginInline: "auto",
+              marginInline: 'auto',
             }}
           >
             Ruleta de Conocimiento
@@ -403,44 +484,66 @@ export default function App() {
             Prevención Caída de Objetos
           </h1>
 
-          <p
+          <div
             style={{
-              margin: "18px auto 0",
+              margin: isMobile ? '14px auto 0' : '18px auto 0',
               color: BRAND.text,
               maxWidth: 900,
-              fontSize: 18,
-              lineHeight: 1.50,
+              fontSize: isMobile ? 16 : 18,
+              lineHeight: 1.5,
+              paddingInline: isMobile ? 6 : 0,
             }}
           >
-            Ingresa tus datos, gira la ruleta y responde <strong>1 pregunta</strong> para participar en el sorteo.{" "}
-            </p>
-    <p>
-            <strong style={{ color: BRAND.navy }}>¡Conviértete en un Champion de Caída de Objetos!</strong>
-          </p>
+            <div>
+              Ingresa tus datos, gira la ruleta y responde{' '}
+              <strong>1 pregunta</strong> para participar en el sorteo.
+            </div>
+            <div style={{ marginTop: 10 }}>
+              <strong style={{ color: BRAND.navy }}>
+                ¡Conviértete en un Champion de Caída de Objetos!
+              </strong>
+            </div>
+          </div>
         </div>
 
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "minmax(0, 1.45fr) minmax(290px, 0.75fr)",
-            gap: 24,
-            alignItems: "start",
+            display: 'grid',
+            gridTemplateColumns: isMobile
+              ? '1fr'
+              : 'minmax(0, 1.45fr) minmax(290px, 0.75fr)',
+            gap: isMobile ? 18 : 24,
+            alignItems: 'start',
           }}
         >
           <SectionCard
+            mobile={isMobile}
             title={
-              step === "register"
-                ? "Antes de jugar"
-                : step === "wheel"
-                ? "Gira la ruleta"
-                : step === "question"
-                ? "Pregunta sorteada"
-                : "Respuesta enviada"
+              step === 'register'
+                ? 'Antes de jugar'
+                : step === 'wheel'
+                ? 'Gira la ruleta'
+                : step === 'question'
+                ? 'Pregunta sorteada'
+                : 'Respuesta enviada'
             }
           >
-            {step === "register" && (
-              <form onSubmit={handleRegister} style={{ display: "grid", gap: 24 }}>
-                <p style={{ margin: 0, color: BRAND.text, fontSize: 17 }}>
+            {step === 'register' && (
+              <form
+                onSubmit={handleRegister}
+                style={{
+                  display: 'grid',
+                  gap: isMobile ? 18 : 24,
+                  width: '100%',
+                }}
+              >
+                <p
+                  style={{
+                    margin: 0,
+                    color: BRAND.text,
+                    fontSize: isMobile ? 16 : 17,
+                  }}
+                >
                   Ingresa tus datos y gira la ruleta.
                 </p>
 
@@ -451,7 +554,7 @@ export default function App() {
                       border: `1px solid ${BRAND.purple}33`,
                       background: `${BRAND.purple}10`,
                       color: BRAND.purple,
-                      padding: "14px 16px",
+                      padding: '14px 16px',
                       fontSize: 14,
                       fontWeight: 700,
                     }}
@@ -460,17 +563,19 @@ export default function App() {
                   </div>
                 )}
 
-                <div style={{ display: "grid", gap: 18 }}>
+                <div style={{ display: 'grid', gap: 18 }}>
                   <LabeledInput
+                    mobile={isMobile}
                     label="Nombre completo"
                     value={fullName}
                     onChange={(e) => {
                       setFullName(e.target.value);
-                      if (dailyLimitMessage) setDailyLimitMessage("");
+                      if (dailyLimitMessage) setDailyLimitMessage('');
                     }}
                     placeholder="Ej.: Felipe Perez Oyarzún"
                   />
                   <LabeledInput
+                    mobile={isMobile}
                     label="Empresa"
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
@@ -479,69 +584,88 @@ export default function App() {
                 </div>
 
                 <div>
-                  <PrimaryButton type="submit">Comenzar juego</PrimaryButton>
+                  <PrimaryButton mobile={isMobile} type="submit">
+                    Comenzar juego
+                  </PrimaryButton>
                 </div>
               </form>
             )}
 
-            {step === "wheel" && (
-              <div style={{ display: "grid", gap: 24, justifyItems: "center" }}>
-                <p style={{ margin: 0, color: BRAND.text, fontSize: 17 }}>
+            {step === 'wheel' && (
+              <div
+                style={{
+                  display: 'grid',
+                  gap: isMobile ? 18 : 24,
+                  justifyItems: 'center',
+                }}
+              >
+                <p
+                  style={{
+                    margin: 0,
+                    color: BRAND.text,
+                    fontSize: isMobile ? 16 : 17,
+                    textAlign: 'center',
+                  }}
+                >
                   La ruleta seleccionará 1 de las 16 preguntas del documento.
                 </p>
 
                 <div
                   style={{
-                    position: "relative",
-                    width: 360,
-                    height: 360,
-                    maxWidth: "100%",
+                    position: 'relative',
+                    width: wheelSize,
+                    height: wheelSize,
+                    maxWidth: '100%',
                   }}
                 >
                   <div
                     style={{
-                      position: "absolute",
-                      left: "50%",
-                      transform: "translateX(-50%)",
+                      position: 'absolute',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
                       top: -8,
                       zIndex: 10,
                       width: 0,
                       height: 0,
-                      borderLeft: "18px solid transparent",
-                      borderRight: "18px solid transparent",
+                      borderLeft: '18px solid transparent',
+                      borderRight: '18px solid transparent',
                       borderBottom: `34px solid ${BRAND.navy}`,
                     }}
                   />
 
                   <div
                     style={{
-                      width: "100%",
-                      height: "100%",
-                      borderRadius: "50%",
-                      background: "#fff",
-                      border: "12px solid white",
-                      boxShadow: "0 18px 35px rgba(9, 30, 66, 0.12)",
-                      padding: 16,
-                      boxSizing: "border-box",
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: '50%',
+                      background: '#fff',
+                      border: '12px solid white',
+                      boxShadow: '0 18px 35px rgba(9, 30, 66, 0.12)',
+                      padding: isSmallMobile ? 12 : 16,
+                      boxSizing: 'border-box',
                       transform: `rotate(${rotation}deg)`,
-                      transition: isSpinning ? "transform 1.8s cubic-bezier(0.2, 0.8, 0.2, 1)" : "none",
+                      transition: isSpinning
+                        ? 'transform 1.8s cubic-bezier(0.2, 0.8, 0.2, 1)'
+                        : 'none',
                     }}
                   >
                     <div
                       style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(3, 1fr)",
-                        gap: 12,
-                        width: "100%",
-                        height: "100%",
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(3, 1fr)',
+                        gap: isSmallMobile ? 8 : 12,
+                        width: '100%',
+                        height: '100%',
                       }}
                     >
                       {QUESTIONS.map((q, i) => {
                         const bg = WHEEL_COLORS[i % WHEEL_COLORS.length];
                         const textColor =
-                          bg === BRAND.yellow || bg === BRAND.gray || bg === BRAND.lightBlue
+                          bg === BRAND.yellow ||
+                          bg === BRAND.gray ||
+                          bg === BRAND.lightBlue
                             ? BRAND.navy
-                            : "#fff";
+                            : '#fff';
 
                         return (
                           <div
@@ -549,11 +673,11 @@ export default function App() {
                             style={{
                               borderRadius: 18,
                               border: `1px solid ${BRAND.softBorder}`,
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
                               fontWeight: 800,
-                              fontSize: 15,
+                              fontSize: isSmallMobile ? 13 : 15,
                               backgroundColor: bg,
                               color: textColor,
                             }}
@@ -566,39 +690,51 @@ export default function App() {
                   </div>
                 </div>
 
-                <PrimaryButton onClick={spinWheel} disabled={isSpinning}>
-                  {isSpinning ? "Girando..." : "Girar ruleta"}
+                <PrimaryButton
+                  mobile={isMobile}
+                  onClick={spinWheel}
+                  disabled={isSpinning}
+                >
+                  {isSpinning ? 'Girando...' : 'Girar ruleta'}
                 </PrimaryButton>
               </div>
             )}
 
-            {step === "question" && selectedQuestion && (
-              <div style={{ display: "grid", gap: 22 }}>
-                <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+            {step === 'question' && selectedQuestion && (
+              <div style={{ display: 'grid', gap: isMobile ? 18 : 22 }}>
+                <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
                   <Badge>Pregunta sorteada: P{selectedQuestion.id}</Badge>
                   <Badge bg={BRAND.purple} color="#fff">
                     Participación única
                   </Badge>
                 </div>
 
-                <div style={{ display: "grid", gap: 10 }}>
+                <div style={{ display: 'grid', gap: 10 }}>
                   <h2
                     style={{
                       margin: 0,
                       color: BRAND.navy,
-                      fontSize: 30,
+                      fontSize: isMobile ? 24 : 30,
                       lineHeight: 1.18,
                       fontWeight: 800,
                     }}
                   >
                     {selectedQuestion.question}
                   </h2>
-                  <p style={{ margin: 0, color: BRAND.text, fontSize: 16 }}>
-                    Responde con tus palabras. Tu respuesta será enviada para revisión.
+                  <p
+                    style={{
+                      margin: 0,
+                      color: BRAND.text,
+                      fontSize: isMobile ? 15 : 16,
+                    }}
+                  >
+                    Responde con tus palabras. Tu respuesta será enviada para
+                    revisión.
                   </p>
                 </div>
 
                 <LabeledInput
+                  mobile={isMobile}
                   label="Tu respuesta"
                   value={answer}
                   onChange={(e) => setAnswer(e.target.value)}
@@ -607,26 +743,28 @@ export default function App() {
                 />
 
                 <div>
-                  <PrimaryButton onClick={submitAnswer}>Enviar respuesta y participar</PrimaryButton>
+                  <PrimaryButton mobile={isMobile} onClick={submitAnswer}>
+                    Enviar respuesta y participar
+                  </PrimaryButton>
                 </div>
               </div>
             )}
 
-            {step === "result" && selectedQuestion && (
-              <div style={{ display: "grid", gap: 24 }}>
-                <div style={{ textAlign: "center", display: "grid", gap: 14 }}>
+            {step === 'result' && selectedQuestion && (
+              <div style={{ display: 'grid', gap: isMobile ? 18 : 24 }}>
+                <div style={{ textAlign: 'center', display: 'grid', gap: 14 }}>
                   <div
                     style={{
-                      margin: "0 auto",
-                      width: 72,
-                      height: 72,
-                      borderRadius: "50%",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      background: "#DDF8E8",
-                      color: "#159947",
-                      fontSize: 34,
+                      margin: '0 auto',
+                      width: isMobile ? 64 : 72,
+                      height: isMobile ? 64 : 72,
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: '#DDF8E8',
+                      color: '#159947',
+                      fontSize: isMobile ? 30 : 34,
                       fontWeight: 900,
                     }}
                   >
@@ -636,7 +774,7 @@ export default function App() {
                     style={{
                       margin: 0,
                       color: BRAND.navy,
-                      fontSize: 34,
+                      fontSize: isMobile ? 28 : 34,
                       fontWeight: 900,
                     }}
                   >
@@ -646,14 +784,14 @@ export default function App() {
                     style={{
                       margin: 0,
                       color: BRAND.text,
-                      fontSize: 17,
+                      fontSize: isMobile ? 16 : 17,
                       lineHeight: 1.7,
                       maxWidth: 760,
-                      marginInline: "auto",
+                      marginInline: 'auto',
                     }}
                   >
-                    Tu respuesta ha sido guardada y enviada a los Champions de Caída de Objetos para su revisión,
-                    ¡éxito en el sorteo!
+                    Tu respuesta ha sido guardada y enviada a los Champions de
+                    Caída de Objetos para su revisión, ¡éxito en el sorteo!
                   </p>
                 </div>
 
@@ -662,27 +800,67 @@ export default function App() {
                     borderRadius: 20,
                     border: `1px solid ${BRAND.softBorder}`,
                     background: BRAND.softBg,
-                    padding: 18,
-                    display: "grid",
+                    padding: isMobile ? 16 : 18,
+                    display: 'grid',
                     gap: 8,
+                    overflowWrap: 'break-word',
                   }}
                 >
-                  <p style={{ margin: 0, color: BRAND.navy, fontSize: 13, fontWeight: 700 }}>
+                  <p
+                    style={{
+                      margin: 0,
+                      color: BRAND.navy,
+                      fontSize: 13,
+                      fontWeight: 700,
+                    }}
+                  >
                     Pregunta sorteada
                   </p>
-                  <p style={{ margin: 0, color: BRAND.text, fontSize: 16, fontWeight: 700 }}>
+                  <p
+                    style={{
+                      margin: 0,
+                      color: BRAND.text,
+                      fontSize: isMobile ? 15 : 16,
+                      fontWeight: 700,
+                    }}
+                  >
                     {selectedQuestion.question}
                   </p>
-                  <p style={{ margin: "10px 0 0", color: BRAND.navy, fontSize: 13, fontWeight: 700 }}>
+                  <p
+                    style={{
+                      margin: '10px 0 0',
+                      color: BRAND.navy,
+                      fontSize: 13,
+                      fontWeight: 700,
+                    }}
+                  >
                     Tu respuesta
                   </p>
-                  <p style={{ margin: 0, color: BRAND.text, whiteSpace: "pre-wrap", lineHeight: 1.7 }}>
+                  <p
+                    style={{
+                      margin: 0,
+                      color: BRAND.text,
+                      whiteSpace: 'pre-wrap',
+                      lineHeight: 1.7,
+                      fontSize: isMobile ? 15 : 16,
+                    }}
+                  >
                     {answer}
                   </p>
                 </div>
 
-                <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
-                  <OutlineButton onClick={restartGame}>Reiniciar</OutlineButton>
+                <div
+                  style={{
+                    display: 'flex',
+                    gap: 12,
+                    flexWrap: 'wrap',
+                    alignItems: 'center',
+                    flexDirection: isMobile ? 'column' : 'row',
+                  }}
+                >
+                  <OutlineButton mobile={isMobile} onClick={restartGame}>
+                    Reiniciar
+                  </OutlineButton>
 
                   {isNotifying && <Badge>Enviando registro...</Badge>}
 
@@ -696,43 +874,93 @@ export default function App() {
             )}
           </SectionCard>
 
-          <div style={{ display: "grid", gap: 20 }}>
-            <SectionCard title="Estado" compact>
-              <div style={{ display: "grid", gap: 12, color: BRAND.text, fontSize: 14 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
+          <div style={{ display: 'grid', gap: 20, width: '100%' }}>
+            <SectionCard mobile={isMobile} title="Estado" compact>
+              <div
+                style={{
+                  display: 'grid',
+                  gap: 12,
+                  color: BRAND.text,
+                  fontSize: isMobile ? 15 : 14,
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    gap: 12,
+                  }}
+                >
                   <span>Participante</span>
-                  <strong>{fullName || "—"}</strong>
+                  <strong>{fullName || '—'}</strong>
                 </div>
-                <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    gap: 12,
+                  }}
+                >
                   <span>Empresa</span>
-                  <strong>{company || "—"}</strong>
+                  <strong>{company || '—'}</strong>
                 </div>
-                <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    gap: 12,
+                  }}
+                >
                   <span>Modalidad</span>
                   <strong>1 pregunta</strong>
                 </div>
-                <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    gap: 12,
+                  }}
+                >
                   <span>Preguntas cargadas</span>
                   <strong>{QUESTIONS.length}</strong>
                 </div>
               </div>
             </SectionCard>
 
-            <SectionCard title="Revisión de respuestas" compact>
-              <div style={{ color: BRAND.text, fontSize: 14, lineHeight: 1.7 }}>
-                <p style={{ textAlign:"justify"}}>
-                  Este juego <strong>no valida automáticamente</strong> si la respuesta es correcta o incorrecta.
+            <SectionCard
+              mobile={isMobile}
+              title="Revisión de respuestas"
+              compact
+            >
+              <div
+                style={{
+                  color: BRAND.text,
+                  fontSize: isMobile ? 15 : 14,
+                  lineHeight: 1.7,
+                }}
+              >
+                <p style={{ textAlign: 'justify', marginTop: 0 }}>
+                  Este juego <strong>no valida automáticamente</strong> si la
+                  respuesta es correcta o incorrecta.
                 </p>
-                <p style={{ textAlign:"justify"}}>
-                  Las respuestas quedan registradas para que los Champions de Caída de Objetos puedan revisarlas posteriormente.
+                <p style={{ textAlign: 'justify' }}>
+                  Las respuestas quedan registradas para que los Champions de
+                  Caída de Objetos puedan revisarlas posteriormente.
                 </p>
-                <p style={{ textAlign:"justify"}}>
-                  Además, cada participante puede jugar <strong>solo una vez por día</strong> según su nombre registrado.
+                <p style={{ textAlign: 'justify', marginBottom: 0 }}>
+                  Además, cada participante puede jugar{' '}
+                  <strong>solo una vez por día</strong> según su nombre
+                  registrado.
                 </p>
               </div>
             </SectionCard>
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
       </div>
     </div>
   );
