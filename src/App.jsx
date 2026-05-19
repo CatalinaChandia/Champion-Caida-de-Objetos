@@ -824,62 +824,63 @@ export default function App() {
               </div>
             )}
 
-          {step === 'question' && selectedQuestion && (
-  <div style={{ display: 'grid', gap: isMobile ? 18 : 22 }}>
-    <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-      <Badge>Pregunta sorteada: P{selectedQuestion.id}</Badge>
-      <Badge bg={BRAND.purple} color="#fff">
-        Participación única
-      </Badge>
-    </div>
+                      {step === 'question' && selectedQuestion && (
+              <div style={{ display: 'grid', gap: isMobile ? 18 : 22 }}>
+                <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                  <Badge>Pregunta sorteada: P{selectedQuestion.id}</Badge>
+                  <Badge bg={BRAND.purple} color="#fff">
+                    Participación única
+                  </Badge>
+                </div>
 
-    <div style={{ display: 'grid', gap: 10 }}>
-      <h2
-        style={{
-          margin: 0,
-          color: BRAND.navy,
-          fontSize: isMobile ? 24 : 30,
-          lineHeight: 1.18,
-          fontWeight: 800,
-        }}
-      >
-        {selectedQuestion.question}
-      </h2>
-    </div>
+                <div style={{ display: 'grid', gap: 10 }}>
+                  <h2
+                    style={{
+                      margin: 0,
+                      color: BRAND.navy,
+                      fontSize: isMobile ? 24 : 30,
+                      lineHeight: 1.18,
+                      fontWeight: 800,
+                    }}
+                  >
+                    {selectedQuestion.question}
+                  </h2>
+                </div>
 
-    <div style={{ display: 'grid', gap: 14 }}>
-      {Object.entries(selectedQuestion.options).map(([key, value]) => (
-        <button
-          key={key}
-          onClick={() => setSelectedOption(key)}
-          style={{
-            padding: '16px',
-            borderRadius: 16,
-            border:
-              selectedOption === key
-                ? `3px solid ${BRAND.primary}`
-                : `1px solid ${BRAND.softBorder}`,
-            background: selectedOption === key ? '#EAFBFF' : '#fff',
-            cursor: 'pointer',
-            textAlign: 'left',
-            fontSize: 16,
-            fontWeight: 600,
-            color: BRAND.text,
-          }}
-        >
-          <strong>{key.toUpperCase()})</strong> {value}
-        </button>
-      ))}
-    </div>
+                <div style={{ display: 'grid', gap: 14 }}>
+                  {Object.entries(selectedQuestion.options).map(([key, value]) => (
+                    <button
+                      key={key}
+                      type="button"
+                      onClick={() => setSelectedOption(key)}
+                      style={{
+                        padding: '16px',
+                        borderRadius: 16,
+                        border:
+                          selectedOption === key
+                            ? `3px solid ${BRAND.primary}`
+                            : `1px solid ${BRAND.softBorder}`,
+                        background: selectedOption === key ? '#EAFBFF' : '#fff',
+                        cursor: 'pointer',
+                        textAlign: 'left',
+                        fontSize: 16,
+                        fontWeight: 600,
+                        color: BRAND.text,
+                      }}
+                    >
+                      <strong>{key.toUpperCase()})</strong> {value}
+                    </button>
+                  ))}
+                </div>
 
-    <div style={{ marginTop: 20 }}>
-      <PrimaryButton mobile={isMobile} onClick={submitAnswer}>
-        Confirmar respuesta
-      </PrimaryButton>
-    </div>
-  </div>
-)}
-            
+                <div style={{ marginTop: 20 }}>
+                  <PrimaryButton mobile={isMobile} onClick={submitAnswer}>
+                    Confirmar respuesta
+                  </PrimaryButton>
+                </div>
+              </div>
+            )}
+
             {step === 'result' && selectedQuestion && (
               <div style={{ display: 'grid', gap: isMobile ? 18 : 24 }}>
                 <div style={{ textAlign: 'center', display: 'grid', gap: 14 }}>
@@ -892,26 +893,26 @@ export default function App() {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      background: '#DDF8E8',
-                      color: '#159947',
+                      background: isCorrect ? '#DDF8E8' : '#FFE5E5',
+                      color: isCorrect ? '#159947' : '#D62828',
                       fontSize: isMobile ? 30 : 34,
                       fontWeight: 900,
                     }}
                   >
-                    ✓
+                    {isCorrect ? '✓' : '✕'}
                   </div>
+
                   <h2
-  style={{
-    margin: 0,
-    color: isCorrect ? '#159947' : '#D62828',
-    fontSize: isMobile ? 28 : 34,
-    fontWeight: 900,
-  }}
->
-  {isCorrect
-    ? '¡Correcto! 😄'
-    : '¡Incorrecto! 😢'}
-</h2>
+                    style={{
+                      margin: 0,
+                      color: isCorrect ? '#159947' : '#D62828',
+                      fontSize: isMobile ? 28 : 34,
+                      fontWeight: 900,
+                    }}
+                  >
+                    {isCorrect ? '¡Correcto! 😄' : '¡Incorrecto! 😢'}
+                  </h2>
+
                   <p
                     style={{
                       margin: 0,
@@ -923,8 +924,8 @@ export default function App() {
                     }}
                   >
                     {isCorrect
-  ? 'Has ingresado al sorteo de esta semana.'
-  : 'Inténtalo mañana nuevamente.'}
+                      ? 'Has ingresado al sorteo de esta semana.'
+                      : 'Inténtalo mañana nuevamente.'}
                   </p>
                 </div>
 
@@ -949,6 +950,7 @@ export default function App() {
                   >
                     Pregunta sorteada
                   </p>
+
                   <p
                     style={{
                       margin: 0,
@@ -959,6 +961,7 @@ export default function App() {
                   >
                     {selectedQuestion.question}
                   </p>
+
                   <p
                     style={{
                       margin: '10px 0 0',
@@ -969,6 +972,7 @@ export default function App() {
                   >
                     Tu respuesta
                   </p>
+
                   <p
                     style={{
                       margin: 0,
@@ -978,7 +982,9 @@ export default function App() {
                       fontSize: isMobile ? 15 : 16,
                     }}
                   >
-                    {selectedOption ? `${selectedOption.toUpperCase()}) ${selectedQuestion.options[selectedOption]}` : ''}
+                    {selectedOption
+                      ? `${selectedOption.toUpperCase()}) ${selectedQuestion.options[selectedOption]}`
+                      : ''}
                   </p>
                 </div>
 
@@ -1005,6 +1011,7 @@ export default function App() {
                 </div>
               </div>
             )}
+            
           </SectionCard>
 
           <div style={{ display: 'grid', gap: 20, width: '100%' }}>
