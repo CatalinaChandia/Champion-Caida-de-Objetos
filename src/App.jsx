@@ -536,7 +536,8 @@ export default function App() {
     setStep('register');
     setFullName('');
     setCompany('');
-    setAnswer('');
+    setSelectedOption('');
+    setIsCorrect(null);
     setSelectedQuestionId(null);
     setRotation(0);
     setIsSpinning(false);
@@ -880,11 +881,10 @@ export default function App() {
   ))}
 </div>
 
-<div> style={{ marginTop: 20 }}>
+<div style={{ marginTop: 20 }}>
   <PrimaryButton mobile={isMobile} onClick={submitAnswer}>
     Confirmar respuesta
   </PrimaryButton>
-                </div>
                 </div>
             )}
             
@@ -986,7 +986,7 @@ export default function App() {
                       fontSize: isMobile ? 15 : 16,
                     }}
                   >
-                    {answer}
+                    {selectedOption ? `${selectedOption.toUpperCase()}) ${selectedQuestion.options[selectedOption]}` : ''}
                   </p>
                 </div>
 
@@ -1080,16 +1080,8 @@ export default function App() {
                   lineHeight: 1.7,
                 }}
               >
-                <p style={{ textAlign: 'justify', marginTop: 0 }}>
-                  Este juego <strong>no valida automáticamente</strong> si la
-                  respuesta es correcta o incorrecta.
-                </p>
-                <p style={{ textAlign: 'justify' }}>
-                  Las respuestas quedan registradas para que los Champions de
-                  Caída de Objetos puedan revisarlas posteriormente.
-                </p>
                 <p style={{ textAlign: 'justify', marginBottom: 0 }}>
-                  Además, cada participante puede jugar{' '}
+                  Cada participante puede jugar{' '}
                   <strong>solo una vez por día</strong> según su nombre
                   registrado.
                 </p>
