@@ -18,61 +18,178 @@ const METHANEX_LOGO =
 const QUESTIONS = [
   {
     id: 1,
-    question:
-      '¿Cuál es el objetivo principal de la guía de prevención de objetos caídos?',
+    question: '¿Cuál es el objetivo principal de la guía de prevención de objetos caídos?',
+    options: {
+      a: 'Establecer prácticas para prevenir la caída de objetos desde altura y evitar lesiones o daños a la propiedad.',
+      b: 'Asegurar que las herramientas tengan una jubilación digna antes de tocar el suelo.',
+      c: 'Determinar cuál llave inglesa rebota con mayor elegancia.',
+    },
+    correct: 'a',
   },
-  { id: 2, question: '¿Qué es una zona de objetos caídos?' },
+
+  {
+    id: 2,
+    question: '¿Qué es una zona de caída de objetos?',
+    options: {
+      a: 'Un área con potencial de ser impactada por objetos caídos que debe estar asegurada con barricadas.',
+      b: 'Un espacio VIP reservado para herramientas cansadas.',
+      c: 'El lugar oficial donde los pernos van a reflexionar sobre sus decisiones.',
+    },
+    correct: 'a',
+  },
+
   {
     id: 3,
-    question:
-      '¿Qué debe contemplar la planificación de un trabajo con riesgo de caída de objetos?',
+    question: '¿Qué debe contemplar la planificación de un trabajo con riesgo de caída de objetos?',
+    options: {
+      a: 'Una playlist motivacional y café suficiente para el turno.',
+      b: 'Identificación de peligros, mitigaciones, capacitación, inspecciones y uso de elementos preventivos.',
+      c: 'Un acuerdo verbal con la gravedad para que coopere.',
+    },
+    correct: 'b',
   },
+
   {
     id: 4,
-    question:
-      '¿Qué aspectos debe abordar el JHA en relación con los objetos caídos?',
+    question: '¿Qué aspectos debe abordar el JHA en relación con los objetos caídos?',
+    options: {
+      a: 'Métodos de control de objetos, transporte, bloqueo del área, zona de exclusión y limpieza continua.',
+      b: 'Qué herramienta tiene más probabilidades de querer volar.',
+      c: 'El ranking semanal de tuercas más inquietas.',
+    },
+    correct: 'a',
   },
-  { id: 5, question: '¿Qué es el sistema de prevención primaria de caídas?' },
+
+  {
+    id: 5,
+    question: '¿Qué es el sistema de prevención primaria de caídas?',
+    options: {
+      a: 'El primer nivel de protección para evitar que los objetos caigan o golpeen algo.',
+      b: 'Un curso intensivo de persuasión para convencer al objeto de quedarse quieto.',
+      c: 'Una charla motivacional para pernos rebeldes.',
+    },
+    correct: 'a',
+  },
+
   {
     id: 6,
-    question:
-      '¿Qué indica la guía de prevención de objetos caídos sobre las herramientas y componentes pequeños cuando se trabaja en altura?',
+    question: '¿Qué indica la guía sobre las herramientas y componentes pequeños cuando se trabaja en altura?',
+    options: {
+      a: 'Deben estar atados o asegurados.',
+      b: 'Deben desarrollar apego emocional a la superficie de trabajo.',
+      c: 'Pueden quedar sueltos si se ven tranquilos.',
+    },
+    correct: 'a',
   },
+
   {
     id: 7,
-    question:
-      '¿Qué requisito existe para herramientas o equipos de más de 5 libras (2,2 kg)?',
+    question: '¿Qué requisito existe para herramientas o equipos de más de 5 libras (2,2 kg)?',
+    options: {
+      a: 'Deben estar asegurados con una correa clasificada para su peso y anclados a un punto apropiado.',
+      b: 'Deben prometer solemnemente no caer.',
+      c: 'Se les debe hablar con firmeza antes de subir con ellas.',
+    },
+    correct: 'a',
   },
+
   {
     id: 8,
-    question:
-      '¿Qué requisito existe para herramientas o equipos de menos de 5 libras (2,2 kg)?',
+    question: '¿Qué requisito existe para herramientas o equipos de menos de 5 libras (2,2 kg)?',
+    options: {
+      a: 'Deben atarse al trabajador siempre que sea posible.',
+      b: 'Pueden quedar libres porque son pequeñas pero valientes.',
+      c: 'Solo necesitan supervisión visual y buenos deseos.',
+    },
+    correct: 'a',
   },
-  { id: 9, question: '¿Cómo deben asegurarse los radios y monitores de gas?' },
+
+  {
+    id: 9,
+    question: '¿Cómo deben asegurarse los radios y monitores de gas?',
+    options: {
+      a: 'En bolsillo de malla con cierre de velcro o atados adecuadamente a cinturón/lazo.',
+      b: 'Sujetos con optimismo industrial.',
+      c: 'Dentro del overol, confiando en la fricción.',
+    },
+    correct: 'a',
+  },
+
   {
     id: 10,
     question: '¿Qué es el sistema secundario de prevención de caídas?',
+    options: {
+      a: 'Un respaldo pasivo que actúa si falla el sistema primario.',
+      b: 'El plan B que aparece después de mirar al cielo y suspirar.',
+      c: 'Una red emocional para herramientas estresadas.',
+    },
+    correct: 'a',
   },
-  { id: 11, question: '¿Cómo deben delimitarse las zonas de objetos caídos?' },
+
+  {
+    id: 11,
+    question: '¿Cómo deben delimitarse las zonas de objetos caídos?',
+    options: {
+      a: 'Con cinta roja de peligro o barricadas sólidas con señalización adecuada.',
+      b: 'Con una mirada severa del supervisor desde lejos.',
+      c: 'Dibujando un círculo imaginario y confiando en que todos lo respeten.',
+    },
+    correct: 'a',
+  },
+
   {
     id: 12,
-    question:
-      '¿Qué importancia tiene la limpieza en el área de trabajo para la prevención de objetos caídos?',
+    question: '¿Qué importancia tiene la limpieza en el área de trabajo?',
+    options: {
+      a: 'Reduce significativamente la probabilidad de caída de materiales.',
+      b: 'Hace que las herramientas se comporten mejor por presión social.',
+      c: 'Garantiza que el supervisor pueda ver su reflejo en la plataforma.',
+    },
+    correct: 'a',
   },
+
   {
     id: 13,
     question: '¿Cuál es tu obligación como trabajador al observar un peligro?',
+    options: {
+      a: 'Notificar al supervisor y detener el trabajo si no puede realizarse de forma segura.',
+      b: 'Mirarlo fijamente hasta que se intimide y desaparezca.',
+      c: 'Esperar que alguien más también lo vea para confirmar que no fue imaginación.',
+    },
+    correct: 'a',
   },
-  { id: 14, question: '¿Para qué se utiliza la calculadora DROPS?' },
+
+  {
+    id: 14,
+    question: '¿Para qué se utiliza la calculadora DROPS?',
+    options: {
+      a: 'Para determinar la gravedad potencial de incidentes con objetos caídos según masa y altura.',
+      b: 'Para medir cuántos sustos por minuto puede generar una llave cayendo.',
+      c: 'Para calcular la velocidad exacta del cuidado.',
+    },
+    correct: 'a',
+  },
+
   {
     id: 15,
-    question:
-      '¿Qué responsabilidades tiene el líder del trabajo para la prevención de caída de objetos?',
+    question: '¿Qué responsabilidades tiene el líder del trabajo para la prevención de caída de objetos?',
+    options: {
+      a: 'Asegurar recursos, capacitación, planificación adecuada e identificación/mitigación de riesgos.',
+      b: 'Tener reflejos felinos para atrapar cualquier objeto al vuelo.',
+      c: 'Aplicar medidas disciplinarias a pernos problemáticos.',
+    },
+    correct: 'a',
   },
+
   {
     id: 16,
-    question:
-      '¿Qué establece la guía de prevención de caída de objetos sobre el uso de barbiquejos y cordones retractiles de seguridad?',
+    question: '¿Qué establece la guía sobre el uso de barbiquejos y cordones retráctiles de seguridad?',
+    options: {
+      a: 'Deben usarse para asegurar cascos y herramientas según clasificación de carga y recomendaciones del fabricante.',
+      b: 'Son opcionales si el casco se siente seguro de sí mismo.',
+      c: 'Solo son necesarios cuando el viento anda particularmente creativo.',
+    },
+    correct: 'a',
   },
 ];
 
@@ -334,7 +451,8 @@ export default function App() {
   const [step, setStep] = useState('register');
   const [fullName, setFullName] = useState('');
   const [company, setCompany] = useState('');
-  const [answer, setAnswer] = useState('');
+  const [selectedOption, setSelectedOption] = useState('');
+  const [isCorrect, setIsCorrect] = useState(null);
   const [selectedQuestionId, setSelectedQuestionId] = useState(null);
   const [rotation, setRotation] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
@@ -391,23 +509,28 @@ export default function App() {
   };
 
   const submitAnswer = async () => {
-    if (!selectedQuestion || !answer.trim()) return;
+  if (!selectedQuestion || !selectedOption) return;
 
-    markPlayedToday(fullName);
+  const correct = selectedOption === selectedQuestion.correct;
 
-    const payload = buildPayload({
-      fullName,
-      company,
-      question: selectedQuestion,
-      answer,
-    });
+  setIsCorrect(correct);
 
-    setStep('result');
-    setIsNotifying(true);
-    const notify = await notifyParticipation(payload);
-    setIsNotifying(false);
-    setNotifyStatus(notify);
-  };
+  markPlayedToday(fullName);
+
+  const payload = buildPayload({
+    fullName,
+    company,
+    question: selectedQuestion,
+    answer: selectedOption,
+  });
+
+  setStep('result');
+
+  setIsNotifying(true);
+  const notify = await notifyParticipation(payload);
+  setIsNotifying(false);
+  setNotifyStatus(notify);
+};
 
   const restartGame = () => {
     setStep('register');
@@ -728,28 +851,40 @@ export default function App() {
                       fontSize: isMobile ? 15 : 16,
                     }}
                   >
-                    Responde con tus palabras. Tu respuesta será enviada para
-                    revisión.
                   </p>
                 </div>
 
-                <LabeledInput
-                  mobile={isMobile}
-                  label="Tu respuesta"
-                  value={answer}
-                  onChange={(e) => setAnswer(e.target.value)}
-                  placeholder="Escribe aquí tu respuesta..."
-                  textarea
-                />
+                <div style={{ display: 'grid', gap: 14 }}>
+  {Object.entries(selectedQuestion.options).map(([key, value]) => (
+    <button
+      key={key}
+      onClick={() => setSelectedOption(key)}
+      style={{
+        padding: '16px',
+        borderRadius: 16,
+        border:
+          selectedOption === key
+            ? `3px solid ${BRAND.primary}`
+            : `1px solid ${BRAND.softBorder}`,
+        background:
+          selectedOption === key ? '#EAFBFF' : '#fff',
+        cursor: 'pointer',
+        textAlign: 'left',
+        fontSize: 16,
+        fontWeight: 600,
+        color: BRAND.text,
+      }}
+    >
+      <strong>{key.toUpperCase()})</strong> {value}
+    </button>
+  ))}
+</div>
 
-                <div>
-                  <PrimaryButton mobile={isMobile} onClick={submitAnswer}>
-                    Enviar respuesta y participar
-                  </PrimaryButton>
-                </div>
-              </div>
-            )}
-
+<div>
+  <PrimaryButton mobile={isMobile} onClick={submitAnswer}>
+    Confirmar respuesta
+  </PrimaryButton>
+</div>
             {step === 'result' && selectedQuestion && (
               <div style={{ display: 'grid', gap: isMobile ? 18 : 24 }}>
                 <div style={{ textAlign: 'center', display: 'grid', gap: 14 }}>
@@ -771,15 +906,17 @@ export default function App() {
                     ✓
                   </div>
                   <h2
-                    style={{
-                      margin: 0,
-                      color: BRAND.navy,
-                      fontSize: isMobile ? 28 : 34,
-                      fontWeight: 900,
-                    }}
-                  >
-                    ¡Respuesta enviada!
-                  </h2>
+  style={{
+    margin: 0,
+    color: isCorrect ? '#159947' : '#D62828',
+    fontSize: isMobile ? 28 : 34,
+    fontWeight: 900,
+  }}
+>
+  {isCorrect
+    ? '¡Correcto! 😄'
+    : '¡Incorrecto! 😢'}
+</h2>
                   <p
                     style={{
                       margin: 0,
@@ -790,8 +927,9 @@ export default function App() {
                       marginInline: 'auto',
                     }}
                   >
-                    Tu respuesta ha sido guardada y enviada a los Champions de
-                    Caída de Objetos para su revisión, ¡éxito en el sorteo!
+                    {isCorrect
+  ? 'Has ingresado al sorteo de esta semana.'
+  : 'Inténtalo mañana nuevamente.'}
                   </p>
                 </div>
 
