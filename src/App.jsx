@@ -880,11 +880,14 @@ export default function App() {
   ))}
 </div>
 
-<div>
+<div> style={{ marginTop: 20 }}>
   <PrimaryButton mobile={isMobile} onClick={submitAnswer}>
     Confirmar respuesta
   </PrimaryButton>
-</div>
+                </div>
+                </div>
+            )}
+            
             {step === 'result' && selectedQuestion && (
               <div style={{ display: 'grid', gap: isMobile ? 18 : 24 }}>
                 <div style={{ textAlign: 'center', display: 'grid', gap: 14 }}>
